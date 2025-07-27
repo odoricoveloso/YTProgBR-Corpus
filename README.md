@@ -37,38 +37,46 @@ A seguir, a descrição detalhada de cada campo presente nos arquivos do corpus.
 
 | Campo             | Tipo de Dado      | Descrição                                                    |
 | :---------------- | :---------------- | :----------------------------------------------------------- |
-| `video_id`        | Texto (String)    | Identificador único do vídeo no YouTube.                     |
+| `id`              | Texto (String)    | Identificador único do vídeo no YouTube.                     |
 | `title`           | Texto (String)    | Título do vídeo.                                             |
-| `published_at`    | Data/Hora (String)| Data e hora de publicação do vídeo.                          |
-| `transcript_lang` | Texto (String)    | Código do idioma da transcrição (ex: "pt-BR").               |
-| `duration`        | Texto (String)    | Duração do vídeo no formato ISO 8601 (ex: "PT15M33S").       |
+| `publishDate`     | RFC 3339          | Data e hora de publicação do vídeo.                          |
+| `caption`         | Texto (String)    | Código do idioma da transcrição.                             |
+| `duration`        | ISO 8601 (Time)   | Duração do vídeo no formato ISO 8601.                        |
 | `category`        | Texto (String)    | Categoria do vídeo definida pelo YouTube.                    |
-| `channel_id`      | Texto (String)    | Identificador único do canal no YouTube.                     |
-| `channel_title`   | Texto (String)    | Título do canal.                                             |
-| `thumbnail_url`   | URL (String)      | Link para a imagem de capa (thumbnail) do vídeo.             |
-| `comment_count`   | Inteiro (Integer) | Número total de comentários.                                 |
-| `like_count`      | Inteiro (Integer) | Número total de curtidas.                                    |
-| `view_count`      | Inteiro (Integer) | Número total de visualizações.                               |
+| `channelId`       | Texto (String)    | Identificador único do canal no YouTube.                     |
+| `channelTitle`    | Texto (String)    | Título do canal.                                             |
+| `thumbnail`       | URL (String)      | Link para a imagem de capa (thumbnail) do vídeo.             |
+| `commentCount`    | Inteiro (Integer) | Número total de comentários.                                 |
+| `likeCount`       | Inteiro (Integer) | Número total de curtidas.                                    |
+| `viewCount`       | Inteiro (Integer) | Número total de visualizações.                               |
 | `description`     | Texto (String)    | Texto da descrição do vídeo.                                 |
 | `tags`            | Lista de Strings  | Lista de palavras-chave (tags) associadas ao vídeo.          |
 
 ### 2. Comentários Desbalanceado (`comentarios_desbalanceado.json`)
 
-| Campo            | Tipo de Dado      | Descrição                                                    |
-| :--------------- | :---------------- | :----------------------------------------------------------- |
-| `comment_id`     | Texto (String)    | Identificador único do comentário.                           |
-| `video_id`       | Texto (String)    | ID do vídeo ao qual o comentário pertence.                   |
-| `comment_text`   | Texto (String)    | Conteúdo textual do comentário após o processo de limpeza.   |
-| `author_anon_id` | Texto (String)    | ID anonimizado (hash) do autor do comentário.                |
-| `published_at`   | Data/Hora (String)| Data e hora de publicação do comentário.                     |
+| Campo             | Tipo de Dado      | Descrição                                                           |
+| :---------------  | :---------------- | :-----------------------------------------------------------        |
+| `cid`             | Texto (String)    | Identificador único do comentário.                                  |
+| `text`            | Texto (String)    | Conteúdo textual do comentário original.                            |
+| `soft_clean_text` | Texto (String)    | Conteúdo textual do comentário após o processo de limpeza inicial.  |
+| `hard_clean_text` | Texto (String)    | Conteúdo textual do comentário após o processo de limpeza profunda. |
+| `time`            | Texto (String)    | Há quanto tempo o comentário foi publicado.                         |
+| `author`          | Texto (String)    | ID anonimizado (hash) do autor do comentário.                       |
+| `channel`         | Texto (String)    | Identificador único do canal.                                       |
+| `votes`           | Texto (String)    | Quantidade de likes que o comentário tem.                           |
+| `replies`         | Texto (String)    | Conteúdo das respostas ao comentário (se houver).                   |
+| `photo`           | URL (String)      | Link para a foto de perfil do autor do comentário.                  |
+| `heart`           | Booleano (Boolean)| Indica se o comentário recebeu um "coração" do criador do canal.    |
+| `reply`           | Booleano (Boolean)| Indica se este comentário é uma resposta a outro comentário.        |
+| `time_parsed`     | Número (Float)    | Timestamp Unix do momento da coleta/processamento do comentário.    |
 
 ### 3. Comentários Balanceado (`comentarios_balanceado.csv`)
 
 | Campo          | Tipo de Dado   | Descrição                                          |
 | :------------- | :------------- | :------------------------------------------------- |
-| `segment_text` | Texto (String) | Segmento textual com exatamente 300 palavras.      |
-| `video_id`     | Texto (String) | ID do vídeo de onde o segmento foi originado.      |
 | `channel_id`   | Texto (String) | ID do canal de onde o segmento foi originado.      |
+| `video_id`     | Texto (String) | ID do vídeo de onde o segmento foi originado.      |
+| `segment_text` | Texto (String) | Segmento textual com exatamente 300 palavras.      |
 
 ---
 
@@ -82,7 +90,7 @@ Para mais detalhes, consulte: <https://creativecommons.org/licenses/by-nc-sa/4.0
 
 Se você utilizar este corpus em sua pesquisa, por favor, cite o seguinte artigo:
 
-> Silva, O. G. V.; Castro, G. G.; Guelpeli, M. V. C.; Assis, W. L. S. (2025). *CRIAÇÃO DE UM CORPUS PARA ANÁLISE TEXTUAL DE CONTEÚDOS DE PROGRAMAÇÃO NO YOUTUBE: METODOLOGIA E APLICAÇÕES*.
+> ...
 
 ## Repositório
 
