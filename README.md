@@ -1,100 +1,100 @@
 # YouTube Programming Brazil Corpus (YTProgBR-Corpus)
 
-> **Observação:** Este corpus está vinculado a uma pesquisa científica em andamento e será disponibilizado após a publicação do artigo associado.
+> **Note:** This corpus is linked to ongoing scientific research and will be made available after the publication of the associated article.
 
-## Descrição
+## Description
 
-O **YTProgBR-Corpus** é um corpus textual de grande escala, composto por metadados, transcrições e comentários de vídeos sobre programação de computadores em português brasileiro. Os dados foram coletados de 49 canais brasileiros relevantes na plataforma YouTube, selecionados através de uma metodologia que combina amostragem "bola de neve" e análise de relevância.
+The **YTProgBR-Corpus** is a large-scale textual corpus composed of metadata, transcriptions, and comments from computer programming videos in Brazilian Portuguese. The data was collected from 49 relevant Brazilian channels on the YouTube platform, selected through a methodology that combines "snowball" sampling and relevance analysis.
 
-Este recurso foi desenvolvido para apoiar pesquisas em Processamento de Linguagem Natural (PLN), Linguística de Corpus, Análise de Sentimentos, Modelagem de Tópicos e estudos sobre comunidades de aprendizagem on-line no domínio da tecnologia.
+This resource was developed to support research in Natural Language Processing (NLP), Corpus Linguistics, Sentiment Analysis, Topic Modeling, and studies on online learning communities in the technology domain.
 
-## Estrutura do Corpus
+## Corpus Structure
 
-O corpus é disponibilizado em formatos CSV e JSON e está organizado nos seguintes componentes:
+The corpus is available in CSV and JSON formats and is organized into the following components:
 
-1. **Metadados dos Vídeos**
+1. **Video Metadata**
     * `videos_metadata.csv`
     * `videos_metadata.json`
-    * **Descrição:** Contém informações detalhadas de cada vídeo, como ID, título, data de publicação, estatísticas (visualizações, curtidas, comentários) e informações do canal.
+    * **Description:** Contains detailed information about each video, such as ID, title, publication date, statistics (views, likes, comments), and channel information.
 
-2. **Transcrições dos Vídeos**
+2. **Video Transcriptions**
     * `transcricoes/`
-    * **Descrição:** Uma pasta contendo arquivos de texto (`.txt`), onde cada arquivo corresponde à transcrição automática de um vídeo. O nome de cada arquivo é o ID do vídeo correspondente (ex: `videoID123.txt`).
+    * **Description:** A folder containing text files (`.txt`), where each file corresponds to the automatic transcription of a video. The name of each file is the corresponding video ID (e.g., `videoID123.txt`).
 
-3. **Comentários (Corpus Desbalanceado)**
+3. **Comments (Unbalanced Corpus)**
     * `comentarios_desbalanceado.json`
-    * **Descrição:** Contém todos os comentários válidos coletados, mantendo sua extensão e formato originais (após o processo de limpeza). Este arquivo é ideal para análises que se beneficiam da variabilidade natural do discurso on-line.
+    * **Description:** Contains all valid comments collected, maintaining their original length and format (after the cleaning process). This file is ideal for analyses that benefit from the natural variability of online discourse.
 
-4. **Comentários (Corpus Balanceado)**
+4. **Comments (Balanced Corpus)**
     * `comentarios_balanceado.csv`
-    * **Descrição:** Contém segmentos textuais de 300 palavras extraídos dos comentários. Cada um dos 49 canais contribui com 8 segmentos, garantindo um conjunto de dados uniforme para análises comparativas e técnicas de PLN que exigem documentos de tamanho padronizado.
+    * **Description:** Contains 300-word text segments extracted from comments. Each of the 49 channels contributes 8 segments, ensuring a uniform dataset for comparative analyses and NLP techniques that require standardized document sizes.
 
 ---
 
-## Dicionário de Dados
+## Data Dictionary
 
-A seguir, a descrição detalhada de cada campo presente nos arquivos do corpus.
+Below is the detailed description of each field present in the corpus files.
 
-### 1. Metadados dos Vídeos (`videos_metadata.csv` / `.json`)
+### 1. Video Metadata (`videos_metadata.csv` / `.json`)
 
-| Campo             | Tipo de Dado      | Descrição                                                    |
+| Field             | Data Type         | Description                                                  |
 | :---------------- | :---------------- | :----------------------------------------------------------- |
-| `id`              | Texto (String)    | Identificador único do vídeo no YouTube.                     |
-| `title`           | Texto (String)    | Título do vídeo.                                             |
-| `publishDate`     | RFC 3339          | Data e hora de publicação do vídeo.                          |
-| `caption`         | Texto (String)    | Código do idioma da transcrição.                             |
-| `duration`        | ISO 8601 (Time)   | Duração do vídeo no formato ISO 8601.                        |
-| `category`        | Texto (String)    | Categoria do vídeo definida pelo YouTube.                    |
-| `channelId`       | Texto (String)    | Identificador único do canal no YouTube.                     |
-| `channelTitle`    | Texto (String)    | Título do canal.                                             |
-| `thumbnail`       | URL (String)      | Link para a imagem de capa (thumbnail) do vídeo.             |
-| `commentCount`    | Inteiro (Integer) | Número total de comentários.                                 |
-| `likeCount`       | Inteiro (Integer) | Número total de curtidas.                                    |
-| `viewCount`       | Inteiro (Integer) | Número total de visualizações.                               |
-| `description`     | Texto (String)    | Texto da descrição do vídeo.                                 |
-| `tags`            | Lista de Strings  | Lista de palavras-chave (tags) associadas ao vídeo.          |
+| `id`              | Text (String)     | Unique video identifier on YouTube.                         |
+| `title`           | Text (String)     | Video title.                                                 |
+| `publishDate`     | RFC 3339          | Video publication date and time.                             |
+| `caption`         | Text (String)     | Language code of the transcription.                         |
+| `duration`        | ISO 8601 (Time)   | Video duration in ISO 8601 format.                          |
+| `category`        | Text (String)     | Video category defined by YouTube.                          |
+| `channelId`       | Text (String)     | Unique channel identifier on YouTube.                       |
+| `channelTitle`    | Text (String)     | Channel title.                                               |
+| `thumbnail`       | URL (String)      | Link to the video thumbnail image.                          |
+| `commentCount`    | Integer           | Total number of comments.                                    |
+| `likeCount`       | Integer           | Total number of likes.                                       |
+| `viewCount`       | Integer           | Total number of views.                                       |
+| `description`     | Text (String)     | Video description text.                                      |
+| `tags`            | List of Strings   | List of keywords (tags) associated with the video.          |
 
-### 2. Comentários Desbalanceado (`comentarios_desbalanceado.json`)
+### 2. Unbalanced Comments (`comentarios_desbalanceado.json`)
 
-| Campo             | Tipo de Dado      | Descrição                                                           |
+| Field             | Data Type         | Description                                                         |
 | :---------------  | :---------------- | :-----------------------------------------------------------        |
-| `cid`             | Texto (String)    | Identificador único do comentário.                                  |
-| `text`            | Texto (String)    | Conteúdo textual do comentário original.                            |
-| `soft_clean_text` | Texto (String)    | Conteúdo textual do comentário após o processo de limpeza inicial.  |
-| `hard_clean_text` | Texto (String)    | Conteúdo textual do comentário após o processo de limpeza profunda. |
-| `time`            | Texto (String)    | Há quanto tempo o comentário foi publicado.                         |
-| `author`          | Texto (String)    | ID anonimizado (hash) do autor do comentário.                       |
-| `channel`         | Texto (String)    | Identificador único do canal.                                       |
-| `votes`           | Texto (String)    | Quantidade de likes que o comentário tem.                           |
-| `replies`         | Texto (String)    | Conteúdo das respostas ao comentário (se houver).                   |
-| `photo`           | URL (String)      | Link para a foto de perfil do autor do comentário.                  |
-| `heart`           | Booleano (Boolean)| Indica se o comentário recebeu um "coração" do criador do canal.    |
-| `reply`           | Booleano (Boolean)| Indica se este comentário é uma resposta a outro comentário.        |
-| `time_parsed`     | Número (Float)    | Timestamp Unix do momento da coleta/processamento do comentário.    |
+| `cid`             | Text (String)     | Unique comment identifier.                                          |
+| `text`            | Text (String)     | Original comment textual content.                                   |
+| `soft_clean_text` | Text (String)     | Comment textual content after initial cleaning process.            |
+| `hard_clean_text` | Text (String)     | Comment textual content after deep cleaning process.               |
+| `time`            | Text (String)     | How long ago the comment was published.                            |
+| `author`          | Text (String)     | Anonymized ID (hash) of the comment author.                        |
+| `channel`         | Text (String)     | Unique channel identifier.                                          |
+| `votes`           | Text (String)     | Number of likes the comment has.                                    |
+| `replies`         | Text (String)     | Content of replies to the comment (if any).                        |
+| `photo`           | URL (String)      | Link to the comment author's profile picture.                      |
+| `heart`           | Boolean           | Indicates if the comment received a "heart" from the channel creator. |
+| `reply`           | Boolean           | Indicates if this comment is a reply to another comment.           |
+| `time_parsed`     | Number (Float)    | Unix timestamp of the comment collection/processing moment.        |
 
-### 3. Comentários Balanceado (`comentarios_balanceado.csv`)
+### 3. Balanced Comments (`comentarios_balanceado.csv`)
 
-| Campo          | Tipo de Dado   | Descrição                                          |
-| :------------- | :------------- | :------------------------------------------------- |
-| `channel_id`   | Texto (String) | ID do canal de onde o segmento foi originado.      |
-| `video_id`     | Texto (String) | ID do vídeo de onde o segmento foi originado.      |
-| `segment_text` | Texto (String) | Segmento textual com exatamente 300 palavras.      |
+| Field          | Data Type      | Description                                         |
+| :------------- | :------------- | :-------------------------------------------------- |
+| `channel_id`   | Text (String)  | ID of the channel from which the segment originated. |
+| `video_id`     | Text (String)  | ID of the video from which the segment originated.   |
+| `segment_text` | Text (String)  | Text segment with exactly 300 words.                |
 
 ---
 
-## Licença
+## License
 
-Este corpus está disponibilizado sob a licença **Creative Commons Atribuição-NãoComercial-Compartilhalgual 4.0 Internacional (CC BY-NC-SA 4.0)**.
+This corpus is available under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)** license.
 
-Para mais detalhes, consulte: <https://creativecommons.org/licenses/by-nc-sa/4.0/>
+For more details, see: <https://creativecommons.org/licenses/by-nc-sa/4.0/>
 
-## Como Citar
+## How to Cite
 
-Se você utilizar este corpus em sua pesquisa, por favor, cite o seguinte artigo:
+If you use this corpus in your research, please cite the following article:
 
 > ...
 
-## Repositório
+## Repository
 
-O corpus completo está disponível no seguinte repositório do GitHub:
+The complete corpus is available in the following GitHub repository:
 <https://github.com/odoricoveloso/YTProgBR-Corpus>
