@@ -8,77 +8,119 @@ The **YTProgBR-Corpus** is a large-scale textual corpus composed of metadata, tr
 
 This resource was developed to support research in Natural Language Processing (NLP), Corpus Linguistics, Sentiment Analysis, Topic Modeling, and studies on online learning communities in the technology domain.
 
-## Corpus Structure
+## Current Repository Structure
 
-The corpus is available in CSV and JSON formats and is organized into the following components:
+The repository is organized into three main parts:
 
-1. **Video Metadata**
-    * `videos_metadata.csv`
-    * `videos_metadata.json`
-    * **Description:** Contains detailed information about each video, such as ID, title, publication date, statistics (views, likes, comments), and channel information.
+1. **Documentation**
+    * `README.md`
+    * `README_EN.md`
 
-2. **Video Transcriptions**
-    * `transcricoes/`
-    * **Description:** A folder containing text files (`.txt`), where each file corresponds to the automatic transcription of a video. The name of each file is the corresponding video ID (e.g., `videoID123.txt`).
+2. **Channel-based data (`data/`)**
+    * Contains **80 JSON files** (one per channel), using the `@channelName.json` pattern.
+    * Each file aggregates, per video, metadata, transcript, cleaned transcript, and comments.
 
-3. **Comments (Unbalanced Corpus)**
-    * `comentarios_desbalanceado.json`
-    * **Description:** Contains all valid comments collected, maintaining their original length and format (after the cleaning process). This file is ideal for analyses that benefit from the natural variability of online discourse.
+3. **Processing pipeline (`scripts/`)**
+    * Organized into 6 numbered stages, from channel discovery to topic modeling.
 
-4. **Comments (Balanced Corpus)**
-    * `comentarios_balanceado.csv`
-    * **Description:** Contains 300-word text segments extracted from comments. Each of the 49 channels contributes 8 segments, ensuring a uniform dataset for comparative analyses and NLP techniques that require standardized document sizes.
+### Directory tree
+
+```text
+YTProgBR-Corpus/
+|-- README.md
+|-- README_EN.md
+|-- data/
+|   |-- @99coders.json
+|   |-- @AlexandreCardoso.json
+|   |-- ... (80 channel JSON files)
+|-- scripts/
+|   |-- 01_DataDiscovery/
+|   |   |-- DataDiscovery.ipynb
+|   |   |-- channel_ids.csv
+|   |   |-- channel_ids.txt
+|   |   |-- channelsearch_*.csv
+|   |   |-- channelnet_*.gdf
+|   |   |-- canais_filtrados_DataTools.json
+|   |   `-- canais_selecionados_DataTools.{csv,json}
+|   |-- 02_DataCollection/
+|   |   |-- 01_metadados_youtube_data_tools.py
+|   |   |-- 02_commentsScraper.py
+|   |   |-- 03_captionsScrapper.py
+|   |   `-- 04_unificarDadosporCanal.py
+|   |-- 03_DataCleaning/
+|   |   |-- 01_Anonimizacao_Comentarios.py
+|   |   |-- 02_LimpezaTextual_Comentarios.py
+|   |   |-- 03_LimpezaTextual_Transcricoes.py
+|   |   `-- stopwords.txt
+|   |-- 04_CorpusCharacterization/
+|   |   |-- estatisticas_descritivas_corpus.py
+|   |   |-- estatisticas_descritivas_corpus.json
+|   |   `-- estatisticas_descritivas_corpus.xlsx
+|   |-- 05_SentimentAnalysis/
+|   `-- 06_TopicModeling/
+```
+
+## Pipeline Stages
+
+| Stage | Folder | Current status | Main content |
+| :---- | :----- | :------------- | :----------- |
+| 01 | `scripts/01_DataDiscovery` | Implemented | Notebook and channel search/network artifacts (`.csv`, `.gdf`, IDs, and selected channels). |
+| 02 | `scripts/02_DataCollection` | Implemented | Scripts for metadata, comments, and transcript collection; per-channel merge. |
+| 03 | `scripts/03_DataCleaning` | Implemented | Comment/transcript anonymization and text cleaning + stopwords. |
+| 04 | `scripts/04_CorpusCharacterization` | Implemented | Descriptive statistics generation in Python with `.json` and `.xlsx` outputs. |
+| 05 | `scripts/05_SentimentAnalysis` | Scaffold created | Reserved folder for sentiment analysis. |
+| 06 | `scripts/06_TopicModeling` | Scaffold created | Reserved folder for topic modeling. |
 
 ---
 
 ## Data Dictionary
 
-Below is the detailed description of each field present in the corpus files.
+Below is the observed structure of the JSON files in the `data/` folder.
 
-### 1. Video Metadata (`videos_metadata.csv` / `.json`)
+### 1. Structure of each channel file (`data/@channel.json`)
 
-| Field             | Data Type         | Description                                                  |
-| :---------------- | :---------------- | :----------------------------------------------------------- |
-| `id`              | Text (String)     | Unique video identifier on YouTube.                         |
-| `title`           | Text (String)     | Video title.                                                 |
-| `publishDate`     | RFC 3339          | Video publication date and time.                             |
-| `caption`         | Text (String)     | Language code of the transcription.                         |
-| `duration`        | ISO 8601 (Time)   | Video duration in ISO 8601 format.                          |
-| `category`        | Text (String)     | Video category defined by YouTube.                          |
-| `channelId`       | Text (String)     | Unique channel identifier on YouTube.                       |
-| `channelTitle`    | Text (String)     | Channel title.                                               |
-| `thumbnail`       | URL (String)      | Link to the video thumbnail image.                          |
-| `commentCount`    | Integer           | Total number of comments.                                    |
-| `likeCount`       | Integer           | Total number of likes.                                       |
-| `viewCount`       | Integer           | Total number of views.                                       |
-| `description`     | Text (String)     | Video description text.                                      |
-| `tags`            | List of Strings   | List of keywords (tags) associated with the video.          |
+Each file is a **list of videos** from that channel.
 
-### 2. Unbalanced Comments (`comentarios_desbalanceado.json`)
+| Field | Data Type | Description |
+| :---- | :-------- | :---------- |
+| `video_id` | Text (String) | YouTube video ID. |
+| `metadata` | Object (JSON) | Video metadata. |
+| `transcript` | Text (String) | Raw transcript (when available). |
+| `cleaned_transcript` | Text (String) | Transcript after text cleaning. |
+| `comments` | List of Objects | Comments associated with the video. |
 
-| Field             | Data Type         | Description                                                         |
-| :---------------  | :---------------- | :-----------------------------------------------------------        |
-| `cid`             | Text (String)     | Unique comment identifier.                                          |
-| `text`            | Text (String)     | Original comment textual content.                                   |
-| `soft_clean_text` | Text (String)     | Comment textual content after initial cleaning process.            |
-| `hard_clean_text` | Text (String)     | Comment textual content after deep cleaning process.               |
-| `time`            | Text (String)     | How long ago the comment was published.                            |
-| `author`          | Text (String)     | Anonymized ID (hash) of the comment author.                        |
-| `channel`         | Text (String)     | Unique channel identifier.                                          |
-| `votes`           | Text (String)     | Number of likes the comment has.                                    |
-| `replies`         | Text (String)     | Content of replies to the comment (if any).                        |
-| `photo`           | URL (String)      | Link to the comment author's profile picture.                      |
-| `heart`           | Boolean           | Indicates if the comment received a "heart" from the channel creator. |
-| `reply`           | Boolean           | Indicates if this comment is a reply to another comment.           |
-| `time_parsed`     | Number (Float)    | Unix timestamp of the comment collection/processing moment.        |
+### 2. Fields in `metadata`
 
-### 3. Balanced Comments (`comentarios_balanceado.csv`)
+| Field | Data Type | Description |
+| :---- | :-------- | :---------- |
+| `id` | Text (String) | Unique YouTube video identifier. |
+| `title` | Text (String) | Video title. |
+| `publishDate` | RFC 3339 | Video publication date and time. |
+| `caption` | Boolean or Text | Indicates/describes subtitle/transcript availability. |
+| `duration` | `HH:MM:SS` (String) | Video duration. |
+| `category` | Text (String) | YouTube video category. |
+| `channelId` | Text (String) | YouTube channel identifier. |
+| `channelTitle` | Text (String) | Channel name. |
+| `thumbnail` | URL (String) | Video thumbnail URL. |
+| `commentCount` | Integer | Number of comments. |
+| `likeCount` | Integer | Number of likes. |
+| `viewCount` | Integer | Number of views. |
+| `description` | Text (String) | Video description. |
+| `tags` | Text (String) | Video tags (comma-separated in the current collection format). |
 
-| Field          | Data Type      | Description                                         |
-| :------------- | :------------- | :-------------------------------------------------- |
-| `channel_id`   | Text (String)  | ID of the channel from which the segment originated. |
-| `video_id`     | Text (String)  | ID of the video from which the segment originated.   |
-| `segment_text` | Text (String)  | Text segment with exactly 300 words.                |
+### 3. Fields in each item of `comments`
+
+| Field | Data Type | Description |
+| :---- | :-------- | :---------- |
+| `cid` | Text (String) | Unique comment identifier. |
+| `text` | Text (String) | Original comment text. |
+| `cleaned_text` | Text (String) | Comment text after cleaning. |
+| `time` | Text (String) | Relative publication time (e.g., "2 days ago"). |
+| `votes` | Text (String) | Number of likes on the comment. |
+| `replies` | Text (String) | Aggregated reply content (when available). |
+| `heart` | Boolean | Whether the comment received a heart from the channel. |
+| `reply` | Boolean | Whether the comment is a reply. |
+| `time_parsed` | Number (Float) | Unix timestamp of collection/processing time. |
 
 ---
 

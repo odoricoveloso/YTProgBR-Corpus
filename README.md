@@ -8,83 +8,125 @@ O **YTProgBR-Corpus** é um corpus textual de grande escala, composto por metada
 
 Este recurso foi desenvolvido para apoiar pesquisas em Processamento de Linguagem Natural (PLN), Linguística de Corpus, Análise de Sentimentos, Modelagem de Tópicos e estudos sobre comunidades de aprendizagem on-line no domínio da tecnologia.
 
-## Estrutura do Corpus
+## Estrutura Atual do Repositório
 
-O corpus é disponibilizado em formatos CSV e JSON e está organizado nos seguintes componentes:
+O repositório está organizado em três partes principais:
 
-1. **Metadados dos Vídeos**
-    * `videos_metadata.csv`
-    * `videos_metadata.json`
-    * **Descrição:** Contém informações detalhadas de cada vídeo, como ID, título, data de publicação, estatísticas (visualizações, curtidas, comentários) e informações do canal.
+1. **Documentação**
+    * `README.md`
+    * `README_EN.md`
 
-2. **Transcrições dos Vídeos**
-    * `transcricoes/`
-    * **Descrição:** Uma pasta contendo arquivos de texto (`.txt`), onde cada arquivo corresponde à transcrição automática de um vídeo. O nome de cada arquivo é o ID do vídeo correspondente (ex: `videoID123.txt`).
+2. **Dados por canal (`data/`)**
+    * Contém **80 arquivos JSON** (um por canal), no padrão `@nomeCanal.json`.
+    * Cada arquivo agrega, por vídeo, metadados, transcrição, transcrição limpa e comentários.
 
-3. **Comentários (Corpus Desbalanceado)**
-    * `comentarios_desbalanceado.json`
-    * **Descrição:** Contém todos os comentários válidos coletados, mantendo sua extensão e formato originais (após o processo de limpeza). Este arquivo é ideal para análises que se beneficiam da variabilidade natural do discurso on-line.
+3. **Pipeline de processamento (`scripts/`)**
+    * Estruturado em 6 etapas numeradas, da descoberta de canais à modelagem de tópicos.
 
-4. **Comentários (Corpus Balanceado)**
-    * `comentarios_balanceado.csv`
-    * **Descrição:** Contém segmentos textuais de 300 palavras extraídos dos comentários. Cada um dos 49 canais contribui com 8 segmentos, garantindo um conjunto de dados uniforme para análises comparativas e técnicas de PLN que exigem documentos de tamanho padronizado.
+### Árvore de diretórios
+
+```text
+YTProgBR-Corpus/
+|-- README.md
+|-- README_EN.md
+|-- data/
+|   |-- @99coders.json
+|   |-- @AlexandreCardoso.json
+|   |-- ... (80 arquivos JSON de canais)
+|-- scripts/
+|   |-- 01_DataDiscovery/
+|   |   |-- DataDiscovery.ipynb
+|   |   |-- channel_ids.csv
+|   |   |-- channel_ids.txt
+|   |   |-- channelsearch_*.csv
+|   |   |-- channelnet_*.gdf
+|   |   |-- canais_filtrados_DataTools.json
+|   |   `-- canais_selecionados_DataTools.{csv,json}
+|   |-- 02_DataCollection/
+|   |   |-- 01_metadados_youtube_data_tools.py
+|   |   |-- 02_commentsScraper.py
+|   |   |-- 03_captionsScrapper.py
+|   |   `-- 04_unificarDadosporCanal.py
+|   |-- 03_DataCleaning/
+|   |   |-- 01_Anonimizacao_Comentarios.py
+|   |   |-- 02_LimpezaTextual_Comentarios.py
+|   |   |-- 03_LimpezaTextual_Transcricoes.py
+|   |   `-- stopwords.txt
+|   |-- 04_CorpusCharacterization/
+|   |   |-- estatisticas_descritivas_corpus.py
+|   |   |-- estatisticas_descritivas_corpus.json
+|   |   `-- estatisticas_descritivas_corpus.xlsx
+|   |-- 05_SentimentAnalysis/
+|   `-- 06_TopicModeling/
+```
+
+## Etapas do Pipeline
+
+| Etapa | Pasta | Status atual | Conteúdo principal |
+| :---- | :---- | :----------- | :----------------- |
+| 01 | `scripts/01_DataDiscovery` | Implementada | Notebook e artefatos de busca/rede de canais (`.csv`, `.gdf`, IDs e seleção). |
+| 02 | `scripts/02_DataCollection` | Implementada | Scripts de coleta de metadados, comentários e transcrições; unificação por canal. |
+| 03 | `scripts/03_DataCleaning` | Implementada | Anonimização e limpeza textual de comentários/transcrições + stopwords. |
+| 04 | `scripts/04_CorpusCharacterization` | Implementada | Geração de estatísticas descritivas em Python com saídas `.json` e `.xlsx`. |
+| 05 | `scripts/05_SentimentAnalysis` | Estrutura criada | Pasta reservada para análise de sentimentos. |
+| 06 | `scripts/06_TopicModeling` | Estrutura criada | Pasta reservada para modelagem de tópicos. |
 
 ---
 
 ## Dicionário de Dados
 
-A seguir, a descrição detalhada de cada campo presente nos arquivos do corpus.
+A seguir, a descrição da estrutura observada nos JSONs da pasta `data/`.
 
-### 1. Metadados dos Vídeos (`videos_metadata.csv` / `.json`)
+### 1. Estrutura de cada arquivo de canal (`data/@canal.json`)
 
-| Campo             | Tipo de Dado      | Descrição                                                    |
-| :---------------- | :---------------- | :----------------------------------------------------------- |
-| `id`              | Texto (String)    | Identificador único do vídeo no YouTube.                     |
-| `title`           | Texto (String)    | Título do vídeo.                                             |
-| `publishDate`     | RFC 3339          | Data e hora de publicação do vídeo.                          |
-| `caption`         | Texto (String)    | Código do idioma da transcrição.                             |
-| `duration`        | ISO 8601 (Time)   | Duração do vídeo no formato ISO 8601.                        |
-| `category`        | Texto (String)    | Categoria do vídeo definida pelo YouTube.                    |
-| `channelId`       | Texto (String)    | Identificador único do canal no YouTube.                     |
-| `channelTitle`    | Texto (String)    | Título do canal.                                             |
-| `thumbnail`       | URL (String)      | Link para a imagem de capa (thumbnail) do vídeo.             |
-| `commentCount`    | Inteiro (Integer) | Número total de comentários.                                 |
-| `likeCount`       | Inteiro (Integer) | Número total de curtidas.                                    |
-| `viewCount`       | Inteiro (Integer) | Número total de visualizações.                               |
-| `description`     | Texto (String)    | Texto da descrição do vídeo.                                 |
-| `tags`            | Lista de Strings  | Lista de palavras-chave (tags) associadas ao vídeo.          |
+Cada arquivo é uma **lista de vídeos** do canal.
 
-### 2. Comentários Desbalanceado (`comentarios_desbalanceado.json`)
+| Campo | Tipo de Dado | Descrição |
+| :---- | :----------- | :-------- |
+| `video_id` | Texto (String) | ID do vídeo no YouTube. |
+| `metadata` | Objeto (JSON) | Metadados do vídeo. |
+| `transcript` | Texto (String) | Transcrição bruta (quando disponível). |
+| `cleaned_transcript` | Texto (String) | Transcrição após limpeza textual. |
+| `comments` | Lista de Objetos | Comentários associados ao vídeo. |
 
-| Campo             | Tipo de Dado      | Descrição                                                           |
-| :---------------  | :---------------- | :-----------------------------------------------------------        |
-| `cid`             | Texto (String)    | Identificador único do comentário.                                  |
-| `text`            | Texto (String)    | Conteúdo textual do comentário original.                            |
-| `soft_clean_text` | Texto (String)    | Conteúdo textual do comentário após o processo de limpeza inicial.  |
-| `hard_clean_text` | Texto (String)    | Conteúdo textual do comentário após o processo de limpeza profunda. |
-| `time`            | Texto (String)    | Há quanto tempo o comentário foi publicado.                         |
-| `author`          | Texto (String)    | ID anonimizado (hash) do autor do comentário.                       |
-| `channel`         | Texto (String)    | Identificador único do canal.                                       |
-| `votes`           | Texto (String)    | Quantidade de likes que o comentário tem.                           |
-| `replies`         | Texto (String)    | Conteúdo das respostas ao comentário (se houver).                   |
-| `photo`           | URL (String)      | Link para a foto de perfil do autor do comentário.                  |
-| `heart`           | Booleano (Boolean)| Indica se o comentário recebeu um "coração" do criador do canal.    |
-| `reply`           | Booleano (Boolean)| Indica se este comentário é uma resposta a outro comentário.        |
-| `time_parsed`     | Número (Float)    | Timestamp Unix do momento da coleta/processamento do comentário.    |
+### 2. Campos em `metadata`
 
-### 3. Comentários Balanceado (`comentarios_balanceado.csv`)
+| Campo | Tipo de Dado | Descrição |
+| :---- | :----------- | :-------- |
+| `id` | Texto (String) | Identificador único do vídeo no YouTube. |
+| `title` | Texto (String) | Título do vídeo. |
+| `publishDate` | RFC 3339 | Data e hora de publicação do vídeo. |
+| `caption` | Booleano ou Texto | Indica/discrimina disponibilidade de legenda/transcrição. |
+| `duration` | `HH:MM:SS` (String) | Duração do vídeo. |
+| `category` | Texto (String) | Categoria do vídeo no YouTube. |
+| `channelId` | Texto (String) | Identificador do canal no YouTube. |
+| `channelTitle` | Texto (String) | Nome do canal. |
+| `thumbnail` | URL (String) | URL da miniatura do vídeo. |
+| `commentCount` | Inteiro | Número de comentários. |
+| `likeCount` | Inteiro | Número de curtidas. |
+| `viewCount` | Inteiro | Número de visualizações. |
+| `description` | Texto (String) | Descrição do vídeo. |
+| `tags` | Texto (String) | Tags associadas ao vídeo (separadas por vírgula na coleta atual). |
 
-| Campo          | Tipo de Dado   | Descrição                                          |
-| :------------- | :------------- | :------------------------------------------------- |
-| `channel_id`   | Texto (String) | ID do canal de onde o segmento foi originado.      |
-| `video_id`     | Texto (String) | ID do vídeo de onde o segmento foi originado.      |
-| `segment_text` | Texto (String) | Segmento textual com exatamente 300 palavras.      |
+### 3. Campos em cada item de `comments`
+
+| Campo | Tipo de Dado | Descrição |
+| :---- | :----------- | :-------- |
+| `cid` | Texto (String) | Identificador único do comentário. |
+| `text` | Texto (String) | Conteúdo textual original do comentário. |
+| `cleaned_text` | Texto (String) | Comentário após limpeza textual. |
+| `time` | Texto (String) | Indicação relativa de tempo de publicação (ex.: "há 2 dias"). |
+| `votes` | Texto (String) | Quantidade de likes no comentário. |
+| `replies` | Texto (String) | Conteúdo agregado de respostas (quando houver). |
+| `heart` | Booleano | Indica se recebeu coração do canal. |
+| `reply` | Booleano | Indica se o comentário é uma resposta. |
+| `time_parsed` | Número (Float) | Timestamp Unix de coleta/processamento. |
 
 ---
 
 ## Licença
 
-Este corpus está disponibilizado sob a licença **Creative Commons Atribuição-NãoComercial-Compartilhalgual 4.0 Internacional (CC BY-NC-SA 4.0)**.
+Este corpus está disponibilizado sob a licença **Creative Commons Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional (CC BY-NC-SA 4.0)**.
 
 Para mais detalhes, consulte: <https://creativecommons.org/licenses/by-nc-sa/4.0/>
 
