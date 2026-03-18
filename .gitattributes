@@ -1,0 +1,4 @@
+data/@cursoemvideo.json filter=lfs diff=lfs merge=lfs -text
+data/@FilipeDeschamps.json filter=lfs diff=lfs merge=lfs -text
+data/@LucasMontano.json filter=lfs diff=lfs merge=lfs -text
+data/@rocketseat.json filter=lfs diff=lfs merge=lfs -text
