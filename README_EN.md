@@ -4,7 +4,7 @@
 
 ## Description
 
-The **YTProgBR-Corpus** is a large-scale textual corpus composed of metadata, transcriptions, and comments from computer programming videos in Brazilian Portuguese. The data was collected from 49 relevant Brazilian channels on the YouTube platform, selected through a methodology that combines "snowball" sampling and relevance analysis.
+The **YTProgBR-Corpus** is a large-scale textual corpus composed of metadata, transcriptions, and comments from computer programming videos in Brazilian Portuguese. The data was collected from 80 relevant Brazilian channels on the YouTube platform, selected through a methodology that combines "snowball" sampling and relevance analysis.
 
 This resource was developed to support research in Natural Language Processing (NLP), Corpus Linguistics, Sentiment Analysis, Topic Modeling, and studies on online learning communities in the technology domain.
 
@@ -130,11 +130,11 @@ This corpus is available under the **Creative Commons Attribution-NonCommercial-
 
 For more details, see: <https://creativecommons.org/licenses/by-nc-sa/4.0/>
 
-## How to Cite
+<!-- ## How to Cite
 
 If you use this corpus in your research, please cite the following article:
 
-> ...
+> ... -->
 
 ## Repository
 

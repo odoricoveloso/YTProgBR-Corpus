@@ -4,7 +4,7 @@
 
 ## Descrição
 
-O **YTProgBR-Corpus** é um corpus textual de grande escala, composto por metadados, transcrições e comentários de vídeos sobre programação de computadores em português brasileiro. Os dados foram coletados de 49 canais brasileiros relevantes na plataforma YouTube, selecionados através de uma metodologia que combina amostragem "bola de neve" e análise de relevância.
+O **YTProgBR-Corpus** é um corpus textual de grande escala, composto por metadados, transcrições e comentários de vídeos sobre programação de computadores em português brasileiro. Os dados foram coletados de 80 canais brasileiros relevantes na plataforma YouTube, selecionados através de uma metodologia que combina amostragem "bola de neve" e análise de relevância.
 
 Este recurso foi desenvolvido para apoiar pesquisas em Processamento de Linguagem Natural (PLN), Linguística de Corpus, Análise de Sentimentos, Modelagem de Tópicos e estudos sobre comunidades de aprendizagem on-line no domínio da tecnologia.
 
@@ -130,11 +130,11 @@ Este corpus está disponibilizado sob a licença **Creative Commons Atribuição
 
 Para mais detalhes, consulte: <https://creativecommons.org/licenses/by-nc-sa/4.0/>
 
-## Como Citar
+<!-- ## Como Citar
 
 Se você utilizar este corpus em sua pesquisa, por favor, cite o seguinte artigo:
 
-> ...
+> ... -->
 
 ## Repositório
 
